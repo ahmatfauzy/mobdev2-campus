@@ -12,8 +12,11 @@ Setiap pertemuan disimpan dalam **branch terpisah** agar struktur repository tet
 
 Atau langsung melalui link:
 
-* Pertemuan 1:
+* Pertemuan 1 - GETX:
   https://github.com/ahmatfauzy/mobdev2-campus/tree/pertemuan1
+
+* Pertemuan 2 - GETX CLI:
+  https://github.com/ahmatfauzy/mobdev2-campus/tree/pertemuan2
 
 
 
@@ -21,6 +24,8 @@ Atau langsung melalui link:
 ## 👨‍💻 Author
 
 **Ahmat Fauzi** - 23090109
+
+
 Mobile Development Practicum Repository
 
 ---
