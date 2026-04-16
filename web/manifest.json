@@ -1,6 +1,6 @@
 {
-    "name": "myapp",
-    "short_name": "myapp",
+    "name": "pattern_get_cli",
+    "short_name": "pattern_get_cli",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

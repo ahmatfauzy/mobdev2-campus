@@ -1,4 +1,4 @@
-package com.example.myapp
+package harkatnegeri.pattern_get_cli
 
 import io.flutter.embedding.android.FlutterActivity
 
