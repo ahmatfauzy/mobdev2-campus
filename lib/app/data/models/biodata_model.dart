@@ -40,11 +40,11 @@ class Pendidikan {
   });
 }
 
-// Data Biodata Ahmat Fauzi
+
 final biodataAhmatFauzi = BiodataModel(
   nama: 'Ahmat Fauzi',
   tempatLahir: 'Cirebon',
-  tanggalLahir: '23 Oktober 2005', // Saya koreksi 2025 -> 2005 (lebih masuk akal)
+  tanggalLahir: '23 Oktober 2005', 
   fotoPath: 'assets/images/profile.png',
   pengalaman: [
     Pengalaman(
