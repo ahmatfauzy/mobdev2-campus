@@ -1,33 +1,16 @@
-# 📱 MOBILE DEVELOPMENT Practicum Repository
+# model_implementation
 
-Repository ini berisi rekap praktikum **Mata Kuliah MOBILE DEVELOPMENT**.
-Setiap pertemuan disimpan dalam **branch terpisah** agar struktur repository tetap rapi dan tidak mengotori branch utama.
+A new Flutter project.
 
-## 🚀 Cara Mengakses
+## Getting Started
 
-1. Buka repository ini
-2. Pilih menu **Branch**
-3. Pilih branch sesuai pertemuan
-4. Lihat source code praktikum
+This project is a starting point for a Flutter application.
 
-Atau langsung melalui link:
+A few resources to get you started if this is your first Flutter project:
 
-* Pertemuan 1 - GETX:
-  https://github.com/ahmatfauzy/mobdev2-campus/tree/pertemuan1
+- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
+- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
 
-* Pertemuan 2 - GETX CLI:
-  https://github.com/ahmatfauzy/mobdev2-campus/tree/pertemuan2
-
-
-
-
-## 👨‍💻 Author
-
-**Ahmat Fauzi** - 23090109
-
-
-Mobile Development Practicum Repository
-
----
-
-# mobdev2-campus
+For help getting started with Flutter development, view the
+[online documentation](https://docs.flutter.dev/), which offers tutorials,
+samples, guidance on mobile development, and a full API reference.
