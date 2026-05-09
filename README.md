@@ -18,7 +18,8 @@ Atau langsung melalui link:
 * Pertemuan 2 - GETX CLI:
   https://github.com/ahmatfauzy/mobdev2-campus/tree/pertemuan2
 
-
+* Pertemuan 6 - Implementasi Model di Flutter:
+  https://github.com/ahmatfauzy/mobdev2-campus/tree/pertemuan6
 
 
 ## 👨‍💻 Author
