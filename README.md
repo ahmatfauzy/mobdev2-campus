@@ -18,7 +18,7 @@ Atau langsung melalui link:
 * Pertemuan 2 - GETX CLI:
   https://github.com/ahmatfauzy/mobdev2-campus/tree/pertemuan2
 
-* Pertemuan 6 - Implementasi Model di Flutter:
+* Pertemuan 6 - Implementasi model image detection di Flutter:
   https://github.com/ahmatfauzy/mobdev2-campus/tree/pertemuan6
 
 
