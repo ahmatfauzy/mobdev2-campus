@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'pages/classify_page.dart';
+import 'pages/realtime_page.dart';
 import 'pages/benchmark_page.dart';
 
 void main() => runApp(const MyApp());
@@ -39,6 +40,7 @@ class _MainNavigationState extends State<MainNavigation> {
 
   final List<Widget> _pages = [
     ClassifyPage(),
+    RealtimePage(),
     BenchmarkPage(),
   ];
 
@@ -80,6 +82,11 @@ class _MainNavigationState extends State<MainNavigation> {
             icon: Icon(Icons.image_search),
             selectedIcon: Icon(Icons.image_search_rounded),
             label: 'Classify',
+          ),
+          NavigationDestination(
+            icon: Icon(Icons.videocam_outlined),
+            selectedIcon: Icon(Icons.videocam),
+            label: 'Realtime',
           ),
           NavigationDestination(
             icon: Icon(Icons.speed_outlined),

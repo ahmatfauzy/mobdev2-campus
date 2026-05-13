@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'dart:typed_data';
+import 'package:camera/camera.dart';
 import 'package:flutter/services.dart';
 import 'package:tflite_flutter/tflite_flutter.dart';
 import 'package:image/image.dart' as img;
@@ -31,10 +32,9 @@ class ClassifierService {
     }
   }
 
-  /// Preprocess gambar — model memerlukan input uint8 (0-255)
-  Uint8List _preprocessImage(File imageFile) {
-    final raw = img.decodeImage(imageFile.readAsBytesSync())!;
-    final resized = img.copyResize(raw, width: inputSize, height: inputSize);
+  /// Konversi img.Image ke Uint8List RGB (0-255) untuk model quantized
+  Uint8List _imageToInputBuffer(img.Image image) {
+    final resized = img.copyResize(image, width: inputSize, height: inputSize);
     var buf = Uint8List(1 * inputSize * inputSize * 3);
     int idx = 0;
     for (int y = 0; y < inputSize; y++) {
@@ -48,18 +48,9 @@ class ClassifierService {
     return buf;
   }
 
-  /// Jalankan inferensi secara async (agar tidak memblokir UI thread)
-  Future<Map<String, double>> classify(File imageFile) async {
-    if (!_isReady || _interpreter == null || _labels == null) {
-      throw Exception('Model belum dimuat. Panggil loadModel() terlebih dahulu.');
-    }
-
-    // Jalankan preprocessing di microtask terpisah agar UI tetap responsif
-    final input = await Future(() {
-      return _preprocessImage(imageFile).reshape([1, inputSize, inputSize, 3]);
-    });
-
-    // Output juga uint8 untuk model quantized
+  /// Jalankan inferensi dari buffer input
+  Map<String, double> _runInference(Uint8List inputBuffer) {
+    final input = inputBuffer.reshape([1, inputSize, inputSize, 3]);
     var output = Uint8List(_labels!.length).reshape([1, _labels!.length]);
     _interpreter!.run(input, output);
 
@@ -71,6 +62,63 @@ class ClassifierService {
 
     return Map.fromEntries(results.entries.toList()
       ..sort((a, b) => b.value.compareTo(a.value)));
+  }
+
+  Future<Map<String, double>> classify(File imageFile) async {
+    if (!_isReady || _interpreter == null || _labels == null) {
+      throw Exception('Model belum dimuat. Panggil loadModel() terlebih dahulu.');
+    }
+
+    final buffer = await Future(() {
+      final raw = img.decodeImage(imageFile.readAsBytesSync())!;
+      return _imageToInputBuffer(raw);
+    });
+
+    return _runInference(buffer);
+  }
+
+ img.Image _convertCameraImage(CameraImage camImg) {
+    final width = camImg.width;
+    final height = camImg.height;
+    final image = img.Image(width: width, height: height);
+
+    final yPlane = camImg.planes[0];
+    final uPlane = camImg.planes[1];
+    final vPlane = camImg.planes[2];
+
+    final yRowStride = yPlane.bytesPerRow;
+    final uvRowStride = uPlane.bytesPerRow;
+    final uvPixelStride = uPlane.bytesPerPixel ?? 1;
+
+    for (int y = 0; y < height; y++) {
+      for (int x = 0; x < width; x++) {
+        final yIndex = y * yRowStride + x;
+        final uvIndex = (y ~/ 2) * uvRowStride + (x ~/ 2) * uvPixelStride;
+
+        final yVal = yPlane.bytes[yIndex];
+        final uVal = uPlane.bytes[uvIndex];
+        final vVal = vPlane.bytes[uvIndex];
+
+        // YUV -> RGB conversion
+        int r = (yVal + 1.370705 * (vVal - 128)).round().clamp(0, 255);
+        int g = (yVal - 0.337633 * (uVal - 128) - 0.698001 * (vVal - 128))
+            .round().clamp(0, 255);
+        int b = (yVal + 1.732446 * (uVal - 128)).round().clamp(0, 255);
+
+        image.setPixelRgb(x, y, r, g, b);
+      }
+    }
+    return image;
+  }
+
+  Map<String, double> classifyFromCameraImage(CameraImage camImg) {
+    if (!_isReady || _interpreter == null || _labels == null) {
+      return {};
+    }
+
+    final image = _convertCameraImage(camImg);
+    final buffer = _imageToInputBuffer(image);
+    return _runInference(buffer);
   }
 
   void dispose() {
